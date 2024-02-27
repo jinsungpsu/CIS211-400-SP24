@@ -4,6 +4,8 @@ public class ArrayQueue<T> implements Queue<T> {
     private int front=0, back=0;
     // front... right... (bathroom is higher index)
     // back is left...
+
+    // CRAP - this is wrong (note on 2/27/2024)... must flip it..
     private int count=0;
 
     @Override
