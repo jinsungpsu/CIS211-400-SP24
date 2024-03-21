@@ -74,22 +74,27 @@ public class HashMapOpen<K, V> implements Map<K, V> {
              */
             // figure out if it exists
             // index will be -1 if it doesn't exit
-            int index = table[hashVal].indexOf(key);
-            if (index == -1) {
-                Entry entry = new Entry();
-                entry.key = key;
-                entry.value = value;
-                table[hashVal].add(entry);
-                return null;
-            } else {
-                // it existed, so we need to get the current value
-                V currValue = table[hashVal].get(index).value;
-                Entry entry = new Entry();
-                entry.key = key;
-                entry.value = value;
-                table[hashVal].set(index, entry);
-                return currValue;
+            // int index = table[hashVal].indexOf(key);
+            // this doesn't actually work, because contains is looking for an Entry and not a key object
+
+            // instead, we have to manually iterate through and look for the Entry.key data instead
+
+            for (Entry each: table[hashVal]) {
+                if (each.key.equals(key)) {
+                    // found an existing association!!
+                    V existingValue = each.value;
+                    each.key = key;
+                    return existingValue;
+                }
             }
+
+            // if there's no existing association
+
+            Entry entry = new Entry();
+            entry.key = key;
+            entry.value = value;
+            table[hashVal].add(entry);
+            return null;
         }
         return null;
     }
